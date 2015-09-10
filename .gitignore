@@ -1,0 +1,22 @@
+target/
+*.class
+*.jar
+*.war
+*.iml
+*service.test.logs.location*
+*.ipr
+*.iws
+.idea/
+_Store
+.AppleDouble
+.LSOverride
+Icon
+# Thumbnails
+._*
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+.classpath
+.externalToolBuilders/
+.project
+.settings/

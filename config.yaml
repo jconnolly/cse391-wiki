@@ -1,0 +1,14 @@
+database:
+  driverClass: com.mysql.jdbc.Driver
+  user: cse391
+  password: password
+  url: jdbc:mysql://localhost/test
+
+server:
+  rootPath: /API/*
+  applicationConnectors:
+    - type: http
+      port: 8080
+  adminConnectors:
+      - type: http
+        port: 8081
