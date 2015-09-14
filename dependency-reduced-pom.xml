@@ -42,7 +42,7 @@
     </plugins>
   </build>
   <properties>
-    <dropwizard.version>0.8.2</dropwizard.version>
+    <dropwizard.version>0.8.4</dropwizard.version>
   </properties>
 </project>
 

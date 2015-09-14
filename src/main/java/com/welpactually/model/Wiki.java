@@ -1,5 +1,7 @@
 package com.welpactually.model;
 
+import info.bliki.wiki.model.WikiModel;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -59,6 +61,10 @@ public class Wiki {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public String toHtml() {
+        return WikiModel.toHtml(this.body);
     }
 
     @Override

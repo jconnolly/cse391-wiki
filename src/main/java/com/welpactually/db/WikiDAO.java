@@ -27,10 +27,7 @@ public class WikiDAO extends AbstractDAO<Wiki> {
 
     private Wiki update(Wiki wiki) {
         Wiki old = findByTitle(wiki.getTitle());
-
-
         old.setBody(wiki.getBody());
-        System.out.println("-------------------------" + old);
         return persist(old);
     }
 
