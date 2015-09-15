@@ -57,7 +57,6 @@ public class Page {
     public EditWiki editWiki(@PathParam("title") String title) {
         Wiki wiki = wikiDao.findByTitle(title);
         if (wiki != null){
-            System.out.println("wiki: "+ wiki);
             return new EditWiki(wiki);
         }
         else
