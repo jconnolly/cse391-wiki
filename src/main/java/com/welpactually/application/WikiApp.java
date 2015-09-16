@@ -32,7 +32,7 @@ public class WikiApp extends Application<WikiConfiguration>
         bootstrap.addBundle(new AssetsBundle("/assets/", "/assets/", "index.html"));
         bootstrap.addBundle(hibernate);
         bootstrap.addBundle(new ViewBundle());
-        bootstrap.addBundle(new RedirectBundle(new PathRedirect("/", "/wiki/Main")));
+        bootstrap.addBundle(new RedirectBundle(new PathRedirect("/", "/Main")));
     }
 
     @Override
