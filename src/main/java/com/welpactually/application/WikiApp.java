@@ -9,10 +9,15 @@ import com.welpactually.resource.Page;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
+import org.glassfish.jersey.filter.LoggingFilter;
+import org.glassfish.jersey.server.ResourceConfig;
+
+import java.util.logging.Logger;
 
 public class WikiApp extends Application<WikiConfiguration>
 {
@@ -32,6 +37,7 @@ public class WikiApp extends Application<WikiConfiguration>
         bootstrap.addBundle(new AssetsBundle("/assets/", "/assets/", "index.html"));
         bootstrap.addBundle(hibernate);
         bootstrap.addBundle(new ViewBundle());
+        bootstrap.addBundle(new MultiPartBundle());
         bootstrap.addBundle(new RedirectBundle(new PathRedirect("/", "/Main")));
     }
 
@@ -39,6 +45,11 @@ public class WikiApp extends Application<WikiConfiguration>
     public void run(WikiConfiguration config, Environment environment) {
         WikiDAO dao = new WikiDAO(hibernate.getSessionFactory());
         environment.jersey().register(new Page(dao));
+        environment.jersey().register(new LoggingFilter(
+                        Logger.getLogger(LoggingFilter.class.getName()),
+                        true)
+        );
+
     }
 
     private HibernateBundle<WikiConfiguration> hibernate = new HibernateBundle<WikiConfiguration>(Wiki.class) {

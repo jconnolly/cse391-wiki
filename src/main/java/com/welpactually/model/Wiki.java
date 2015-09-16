@@ -1,5 +1,6 @@
 package com.welpactually.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import info.bliki.wiki.dump.WikiPatternMatcher;
 import info.bliki.wiki.model.WikiModel;
 
@@ -39,7 +40,7 @@ public class Wiki {
         this.title = title;
         this.body = body;
     }
-
+    @JsonProperty
     public long getId() {
         return id;
     }
@@ -48,18 +49,22 @@ public class Wiki {
         this.id = id;
     }
 
+    @JsonProperty
     public String getTitle() {
         return title;
     }
 
+    @JsonProperty
     public void setTitle(String title) {
         this.title = title;
     }
 
+    @JsonProperty
     public String getBody() {
         return body;
     }
 
+    @JsonProperty
     public void setBody(String body) {
         this.body = body;
     }
