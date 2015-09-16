@@ -1,5 +1,6 @@
 package com.welpactually.model;
 
+import info.bliki.wiki.dump.WikiPatternMatcher;
 import info.bliki.wiki.model.WikiModel;
 
 import javax.persistence.Column;

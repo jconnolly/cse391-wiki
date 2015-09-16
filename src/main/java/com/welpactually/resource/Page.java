@@ -58,7 +58,7 @@ public class Page {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    @Path("/wiki/{title}")
+    @Path("/{title}")
     @UnitOfWork
     public ViewWiki viewWiki(@PathParam("title") String title) {
         Wiki wiki = wikiDao.findByTitle(title);
@@ -70,7 +70,7 @@ public class Page {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    @Path("/wiki/{title}/edit")
+    @Path("/{title}/edit")
     @UnitOfWork
     public EditWiki editWiki(@PathParam("title") String title) {
         Wiki wiki = wikiDao.findByTitle(title);
