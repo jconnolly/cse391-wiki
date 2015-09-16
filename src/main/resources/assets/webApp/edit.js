@@ -3,12 +3,17 @@ $(document).ready( function() {
 
     var wikiText = $("#body").val();
     var title = $(document).find("title").text()
-    data = { "title" : title, "body" : wikiText }
+    dataJson = { "title" : title, "body" : wikiText }
+    data = new FormData();
+    data.append('data', JSON.stringify(dataJson));
 
     $.ajax({
       url: "/API/"+title,
-      data: JSON.stringify(data),
-      contentType: 'application/json',
+      data: data,
+      async: false,
+      cache: false,
+      contentType: false,
+      processData: false,
       type: 'POST'
     })
     .done(function(resp){
