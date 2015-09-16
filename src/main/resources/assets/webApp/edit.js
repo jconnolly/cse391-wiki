@@ -1,9 +1,17 @@
-$(document).ready(
+$(document).ready( function() {
   $("#save").click(function () {
-    var textAreaValue = $("#body").text();
-    alert(textAreaValue); //do POST to /API/{{title}} here
+
+    var wikiText = $("#body").val();
+    var title = $(document).find("title").text()
+    data = { "title" : title, "body" : wikiText }
+
+    $.ajax("/API/"+title, {
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      type: 'POST'
+    });
   });
-);
+});
 
 
 
