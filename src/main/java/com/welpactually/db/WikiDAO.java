@@ -21,16 +21,9 @@ public class WikiDAO extends AbstractDAO<Wiki> {
         return uniqueResult(criteria().add(Restrictions.eq("title", title)));
     }
 
-    public Wiki saveOrUpdate(Wiki wiki) {
-        return update(wiki);
+    public Wiki createOrUpdate(Wiki wiki) {
+        return persist(wiki);
     }
-
-    private Wiki update(Wiki wiki) {
-        Wiki old = findByTitle(wiki.getTitle());
-        old.setBody(wiki.getBody());
-        return persist(old);
-    }
-
 
     public List<Wiki> findAll() {
         return list(namedQuery("com.welpactually.model.Wiki.findAll"));

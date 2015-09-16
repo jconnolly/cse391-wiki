@@ -2,14 +2,35 @@
 <html>
 <head>
     <title>{{wiki.title}}</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/assets/style/edit.css">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="/assets/webApp/edit.js"></script>
+    <script>
+        $(document).ready(function () {
+        $("#save").click(function () {
+          var textAreaValue = $("#body").text();
+          alert(textAreaValue);
+          });
+        });
+    </script>
 </head>
 <body>
-<hr/>
-<div>
-    <textarea>{{wiki.body}}</textarea>
+<div class="header">
+    <h1>{{wiki.title}}</h1>
+    <div class="navbar">
+        <ul>
+            <li><a href="/wiki/{{wiki.title}}/edit" id="edit-button">Edit</a></li>
+            <li><a href="/wiki/{{wiki.title}}" id="view-button">View</a></li>
+        </ul>
+    </div>
+</div>
+<hr />
+<div class="content">
+    <form name="wiki">
+        <textarea name="body" id="body">{{{wiki.body}}}</textarea>
+        <input type="button" id="save" value="Save" />
+    </form>
 </div>
 </body>
-</div>
 </html>
