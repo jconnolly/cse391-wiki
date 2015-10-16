@@ -33,6 +33,9 @@ public class Wiki {
     @Column(name = "body", nullable = false)
     private String body;
 
+    @Column(name = "redirect", nullable = true)
+    private String redirect;
+
     public Wiki() {
     }
 
@@ -101,5 +104,13 @@ public class Wiki {
                 ", title='" + title + '\'' +
                 ", body='" + body + '\'' +
                 '}';
+    }
+
+    public void setRedirect(String redirect) {
+        this.redirect = redirect;
+    }
+
+    public String getRedirect() {
+        return this.redirect;
     }
 }

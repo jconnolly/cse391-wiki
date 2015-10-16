@@ -39,6 +39,7 @@ public class WikiApp extends Application<WikiConfiguration>
         bootstrap.addBundle(new ViewBundle());
         bootstrap.addBundle(new MultiPartBundle());
         bootstrap.addBundle(new RedirectBundle(new PathRedirect("/", "/Main")));
+        bootstrap.addBundle(new RedirectBundle(new PathRedirect("/grading/SBU", "/SBU")));
     }
 
     @Override
@@ -53,7 +54,6 @@ public class WikiApp extends Application<WikiConfiguration>
     }
 
     private HibernateBundle<WikiConfiguration> hibernate = new HibernateBundle<WikiConfiguration>(Wiki.class) {
-        @Override
         public DataSourceFactory getDataSourceFactory(WikiConfiguration configuration) {
             return configuration.getDataSourceFactory();
         }
