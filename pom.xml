@@ -59,6 +59,11 @@
             <version>5.1.30</version>
         </dependency>
         <dependency>
+            <groupId>io.smartmachine</groupId>
+            <artifactId>dropwizard-couchbase</artifactId>
+            <version>0.2.4-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>info.bliki.wiki</groupId>
             <artifactId>bliki-core</artifactId>
             <version>3.0.19</version>
@@ -68,6 +73,13 @@
                     <groupId>commons-logging</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <artifactId>solr-solrj</artifactId>
+            <groupId>org.apache.solr</groupId>
+            <version>5.3.1</version>
+            <type>jar</type>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

@@ -1,6 +1,5 @@
 package com.welpactually.db;
 
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.welpactually.model.Wiki;
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;

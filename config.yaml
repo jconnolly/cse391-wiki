@@ -1,8 +1,8 @@
-database:
-  driverClass: com.mysql.jdbc.Driver
-  user: root 
-  password: changeme 
-  url: jdbc:mysql://localhost/test
+couchbase:
+  bucket: default
+  hosts:
+    - http://couchbase0.local:8091/pools
+  password: changeme
 
 server:
   rootPath: /*
@@ -15,4 +15,5 @@ server:
 
 logging:
   loggers:
-    org.glassfish.jersey.filter.LoggingFilter: INFO
+    org.glassfish.jersey.filter.LoggingFilter: ERROR
+    hibernate.session.events.log: false

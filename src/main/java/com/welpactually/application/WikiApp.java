@@ -14,8 +14,11 @@ import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
+import io.smartmachine.couchbase.CouchbaseClientFactory;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.glassfish.jersey.filter.LoggingFilter;
-import org.glassfish.jersey.server.ResourceConfig;
+import io.smartmachine.couchbase.CouchbaseBundle;
 
 import java.util.logging.Logger;
 
@@ -35,17 +38,16 @@ public class WikiApp extends Application<WikiConfiguration>
     @Override
     public void initialize(Bootstrap<WikiConfiguration> bootstrap) {
         bootstrap.addBundle(new AssetsBundle("/assets/", "/assets/", "index.html"));
-        bootstrap.addBundle(hibernate);
+        bootstrap.addBundle(couchbaseBundle);
         bootstrap.addBundle(new ViewBundle());
         bootstrap.addBundle(new MultiPartBundle());
         bootstrap.addBundle(new RedirectBundle(new PathRedirect("/", "/Main")));
-        bootstrap.addBundle(new RedirectBundle(new PathRedirect("/grading/SBU", "/SBU")));
     }
 
     @Override
     public void run(WikiConfiguration config, Environment environment) {
-        WikiDAO dao = new WikiDAO(hibernate.getSessionFactory());
-        environment.jersey().register(new Page(dao));
+        SolrClient solr = getSolrConnection();
+        environment.jersey().register(new Page(solr));
         environment.jersey().register(new LoggingFilter(
                         Logger.getLogger(LoggingFilter.class.getName()),
                         true)
@@ -53,9 +55,13 @@ public class WikiApp extends Application<WikiConfiguration>
 
     }
 
-    private HibernateBundle<WikiConfiguration> hibernate = new HibernateBundle<WikiConfiguration>(Wiki.class) {
-        public DataSourceFactory getDataSourceFactory(WikiConfiguration configuration) {
-            return configuration.getDataSourceFactory();
+    private final CouchbaseBundle<WikiConfiguration> couchbaseBundle = new CouchbaseBundle<WikiConfiguration>() {
+        public CouchbaseClientFactory getCouchbaseClientFactory(WikiConfiguration configuration) {
+            return configuration.getCouchbaseClientFactory();
         }
     };
+
+    public SolrClient getSolrConnection() {
+        return new HttpSolrClient("http://solr0.local:8983/solr/wiki");
+    }
 }

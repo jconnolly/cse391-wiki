@@ -3,6 +3,7 @@ package com.welpactually.configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;
+import io.smartmachine.couchbase.CouchbaseClientFactory;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -12,11 +13,15 @@ public class WikiConfiguration extends Configuration {
 
     @Valid
     @NotNull
-    @JsonProperty
-    private DataSourceFactory database = new DataSourceFactory();
+    private CouchbaseClientFactory ccf = new CouchbaseClientFactory();
 
-    @JsonProperty("database")
-    public DataSourceFactory getDataSourceFactory() {
-        return database;
+    @JsonProperty("couchbase")
+    public CouchbaseClientFactory getCouchbaseClientFactory() {
+        return ccf;
+    }
+
+    @JsonProperty("couchbase")
+    public void setCouchbaseClientFactory(CouchbaseClientFactory ccf) {
+        this.ccf = ccf;
     }
 }
