@@ -11,16 +11,9 @@
 </head>
 <body>
 <div class="header">
-    <h1>{{wiki.title}}</h1>
-    <div class="navbar navbar-nav col-sm-3 col-md-3 pull-left">
-        <ul class="nav navbar-nav">
-            <li><a href="/{{wiki.title}}/edit" id="edit-button">Edit</a></li>
-            <li><a href="/{{wiki.title}}/move" id="move-button">Move page</a></li>
-            <li><a href="/{{wiki.title}}" id="view-button">View</a></li>
-        </ul>
-    </div>
+    <h1>Search: {{query}}</h1>
     <div class="col-sm-3 col-md-3 pull-right">
-        <form class="navbar-form" role="search" action="/search">
+        <form class="navbar-form" role="search">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search" name="q" id="q">
                 <div class="input-group-btn">
@@ -31,8 +24,17 @@
     </div>
 </div>
 <hr />
-<div class="content">
-    {{{wiki.toHtml}}}
+<div>
+    <ul class="list-group">
+    {{#results}}
+        <li class="list-group-item">
+            <h3><a href="/{{{title}}}">{{{title}}}</a></h3>
+            <div>
+                {{{highlight}}}
+            </div>
+        </li>
+    {{/results}}
+    </ul>
 </div>
 </body>
 </html>

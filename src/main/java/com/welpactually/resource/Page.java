@@ -7,12 +7,19 @@ import com.welpactually.model.WikiAccessor;
 import com.welpactually.model.WikiResponse;
 import com.welpactually.views.EditWiki;
 import com.welpactually.views.MoveWiki;
+import com.welpactually.views.SearchResults;
 import com.welpactually.views.ViewWiki;
+import info.bliki.wiki.model.WikiModel;
 import io.smartmachine.couchbase.Accessor;
 import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,6 +27,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.*;
 
 @Path(value = "/")
 public class Page {
@@ -28,6 +36,8 @@ public class Page {
     ObjectMapper mapper = new ObjectMapper();
 
     private final SolrClient solrClient;
+
+    private Logger logger = LoggerFactory.getLogger(Page.class);
 
     @Accessor
     private WikiAccessor accessor;
@@ -124,6 +134,38 @@ public class Page {
             return Response.ok(new MoveWiki(wiki)).build();
         } else
             return Response.ok(new ViewWiki(new Wiki(title, ""))).build();
+    }
+
+
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/search")
+    @Timed
+    public Response search(@QueryParam("q") String q) throws URISyntaxException, IOException, SolrServerException {
+        SolrQuery query = new SolrQuery();
+        logger.info("Query: " + q);
+        query.setQuery("wiki:"+q+" OR title:"+q);
+
+        query.setHighlight(true).setHighlightSnippets(1); //set other params as needed
+        query.setHighlightSimplePre("");
+        query.setHighlightSimplePost("");
+        query.setParam("hl.fl", "wiki");
+        QueryResponse queryResponse = solrClient.query(query);
+        Iterator<SolrDocument> iter = queryResponse.getResults().iterator();
+
+        ArrayList results = new ArrayList<Map<String, String>>();
+        while (iter.hasNext()) {
+            SolrDocument resultDoc = iter.next();
+            String id = (String) resultDoc.getFieldValue("id");
+            if (queryResponse.getHighlighting().get(id) != null) {
+                HashMap<String, String> resultMap = new HashMap<String, String>();
+                resultMap.put("title", id);
+                resultMap.put("highlight", WikiModel.toHtml(queryResponse.getHighlighting().get(id).get("wiki").get(0)));
+                results.add(resultMap);
+            }
+        }
+        logger.info(results.toString());
+        return Response.ok(new SearchResults(q, results)).build();
     }
 
     @GET

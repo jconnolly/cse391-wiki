@@ -62,6 +62,6 @@ public class WikiApp extends Application<WikiConfiguration>
     };
 
     public SolrClient getSolrConnection() {
-        return new HttpSolrClient("http://solr0.local:8983/solr/wiki");
+        return new HttpSolrClient("http://localhost:1241/solr/wiki");
     }
 }
